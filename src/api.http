@@ -1,0 +1,28 @@
+GET http://localhost:3000/bank-accounts
+### 
+GET http://localhost:3000/bank-accounts/eb2a5cad-239d-4e42-87db-e9022430489f
+### 
+POST http://localhost:3000/bank-accounts
+Content-Type: application/json
+
+{
+  "account_number": "1244-11"
+}
+###
+PATCH http://localhost:3000/bank-accounts/123
+Content-Type: application/json
+
+{
+  "account_number": "1121-11"
+}
+###
+DELETE http://localhost:3000/bank-accounts/123
+###
+POST http://localhost:3000/bank-accounts/transfer
+Content-Type: application/json
+
+{
+  "from":"1111-11",
+  "to":"1244-11",
+  "amount":100
+}
