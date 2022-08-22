@@ -12,7 +12,8 @@ import { BankAccount } from './bank-accounts/entities/bank-account.entity';
       database: __dirname + '/db.sqlite',
       synchronize: true,
       logging: true,
-      entities: [BankAccount],
+      // entities: [BankAccount],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
 
     BankAccountsModule,

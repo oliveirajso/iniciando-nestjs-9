@@ -62,16 +62,16 @@ export class BankAccountsController {
     );
   }
 
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateBankAccountDto: UpdateBankAccountDto,
-  // ) {
-  //   return this.bankAccountsService.update(id, updateBankAccountDto);
-  // }
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateBankAccountDto: UpdateBankAccountDto,
+  ) {
+    return this.bankAccountsService.update(id, updateBankAccountDto);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.bankAccountsService.remove(id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.bankAccountsService.remove(id);
+  }
 }

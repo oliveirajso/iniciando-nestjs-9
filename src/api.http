@@ -9,14 +9,14 @@ Content-Type: application/json
   "account_number": "1244-11"
 }
 ###
-PATCH http://localhost:3000/bank-accounts/123
+PATCH http://localhost:3000/bank-accounts/c5e310cc-23cb-4bf3-9cc3-5b4e60b0ed97
 Content-Type: application/json
 
 {
   "account_number": "1121-11"
 }
 ###
-DELETE http://localhost:3000/bank-accounts/123
+DELETE http://localhost:3000/bank-accounts/6b7de334-f0bc-45ee-bd36-96f43aa64be2
 ###
 POST http://localhost:3000/bank-accounts/transfer
 Content-Type: application/json

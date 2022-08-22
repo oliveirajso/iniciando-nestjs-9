@@ -47,7 +47,7 @@ export class BankAccountsService {
   }
 
   transferTransactionManager(from: string, to: string, amount: number) {
-    this.repo.manager.transaction(async (manager) => {
+    this.dataSource.manager.transaction(async (manager) => {
       const fromAccount = await this.repo.findOneBy({ account_number: from });
       const toAccount = await this.repo.findOneBy({ account_number: to });
       fromAccount.balance -= amount;
@@ -62,6 +62,7 @@ export class BankAccountsService {
   async transferQueryRunner(from: string, to: string, amount: number) {
     const queryRunner = this.dataSource.createQueryRunner();
     try {
+      queryRunner.startTransaction();
       const fromAccount = await this.repo.findOneBy({ account_number: from });
       const toAccount = await this.repo.findOneBy({ account_number: to });
       console.log(fromAccount, toAccount);
@@ -78,11 +79,32 @@ export class BankAccountsService {
     }
   }
 
-  // update(id: string, updateBankAccountDto: UpdateBankAccountDto) {
-  //   return `This action updates a #${id} bankAccount`;
-  // }
+  async update(id: string, updateBankAccountDto: UpdateBankAccountDto) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    try {
+      queryRunner.startTransaction();
+      const banckAccountExistent = await this.repo.findOneBy({ id });
+      this.repo.merge(banckAccountExistent, updateBankAccountDto);
+      queryRunner.commitTransaction();
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
+    }
 
-  // remove(id: string) {
-  //   return `This action removes a #${id} bankAccount`;
-  // }
+    const bancAccountExistent = this.repo.update(id, updateBankAccountDto);
+    return bancAccountExistent;
+  }
+
+  async remove(id: string) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    try {
+      queryRunner.startTransaction();
+      await this.repo.delete({ id });
+      queryRunner.commitTransaction();
+    } catch (e) {
+      console.log(e);
+      queryRunner.rollbackTransaction();
+    }
+  }
 }
