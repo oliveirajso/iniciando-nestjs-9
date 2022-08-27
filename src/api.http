@@ -6,7 +6,7 @@ POST http://localhost:3000/bank-accounts
 Content-Type: application/json
 
 {
-  "account_number": "1244-11"
+  "account_number": "5555-55"
 }
 ###
 PATCH http://localhost:3000/bank-accounts/c5e310cc-23cb-4bf3-9cc3-5b4e60b0ed97
@@ -22,7 +22,7 @@ POST http://localhost:3000/bank-accounts/transfer
 Content-Type: application/json
 
 {
-  "from":"1111-11",
-  "to":"1244-11",
+  "from":"5555-55",
+  "to":"4444-44",
   "amount":100
 }

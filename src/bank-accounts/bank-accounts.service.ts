@@ -1,18 +1,19 @@
 import { Inject, Injectable, Scope } from '@nestjs/common';
 import { getDataSourceToken, InjectRepository } from '@nestjs/typeorm';
+import { BankAccountSchema } from '../@core/infra/db/bank-account.schema';
+
 import { DataSource, Repository } from 'typeorm';
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
 import { UpdateBankAccountDto } from './dto/update-bank-account.dto';
-import { BankAccount } from './entities/bank-account.entity';
 
 @Injectable({
-  scope: Scope.REQUEST,
-  durable: true,
+  // scope: Scope.REQUEST,
+  // durable: true,
 })
 export class BankAccountsService {
   constructor(
-    @InjectRepository(BankAccount)
-    private repo: Repository<BankAccount>,
+    @InjectRepository(BankAccountSchema)
+    private repo: Repository<BankAccountSchema>,
     @Inject(getDataSourceToken())
     private dataSource: DataSource,
   ) {}
@@ -38,7 +39,6 @@ export class BankAccountsService {
   async transfer(from: string, to: string, amount: number) {
     const fromAccount = await this.repo.findOneBy({ account_number: from });
     const toAccount = await this.repo.findOneBy({ account_number: to });
-    console.log(fromAccount, toAccount);
     fromAccount.balance -= amount;
     toAccount.balance += amount;
 
@@ -52,8 +52,6 @@ export class BankAccountsService {
       const toAccount = await this.repo.findOneBy({ account_number: to });
       fromAccount.balance -= amount;
       toAccount.balance += amount;
-
-      console.log(fromAccount.balance, toAccount.balance);
       manager.save(fromAccount);
       manager.save(toAccount);
     });
